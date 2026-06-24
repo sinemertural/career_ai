@@ -1,6 +1,8 @@
+import 'package:careerai/features/cv_upload/data/data_sources/ai_remote_data_source.dart';
 import 'package:careerai/features/cv_upload/data/repositories/cv_repository_imp.dart';
 import 'package:careerai/features/cv_upload/domain/entities/cv_entity.dart';
 import 'package:careerai/features/cv_upload/domain/usecases/extract_cv_text_usecase.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 
@@ -20,6 +22,14 @@ class CvUploadNotifier extends StateNotifier<AsyncValue<CvEntity?>> {
     state = const AsyncValue.loading();
     try {
       final result = await _useCase.execute();
+      if (result != null && result.extractedText.isNotEmpty) {
+        debugPrint('====== ÇEKİLEN CV METNİ BAŞLANGICI ======');
+        debugPrint(result.extractedText);
+        debugPrint('====== ÇEKİLEN CV METNİ SONU ======');
+
+        final aiService = AiRemoteDataSource();
+        await aiService.sendCvToColab(result.extractedText);
+      }
       state = AsyncValue.data(result);
     } catch (e, stackTrace) {
       state = AsyncValue.error(e, stackTrace);
