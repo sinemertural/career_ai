@@ -10,7 +10,7 @@ class AiRemoteDataSource {
     ),
   );
 
-  // YENİ ALDIĞIN LİNKİ BURAYA YAPIŞTIR
+  // Ngrok URL'si, Colab'deki Flask API'sine yönlendirilmiş durumdas
   final String _apiUrl =
       "https://barometer-unscrew-backed.ngrok-free.dev/analyze_cv";
 
